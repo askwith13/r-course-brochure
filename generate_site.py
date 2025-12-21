@@ -1,0 +1,322 @@
+#!/usr/bin/env python3
+"""
+Python script to generate the R Programming Course Brochure website.
+This script generates a static HTML file that can be hosted on GitHub Pages.
+"""
+
+def generate_html():
+    """Generate the complete HTML content for the brochure website."""
+    
+    html_content = '''<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Master R Programming</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-default">
+        <div class="container">
+            <a class="navbar-brand" href="#home">Master R Programming</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#overview">Course Overview</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#curriculum">Basic Curriculum</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#advanced">Advanced Topics</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#features">Key Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#registration">Registration</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-section">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">Master R Programming</h1>
+                <p class="hero-subtitle">Professional Coaching Classes for Data Analysis & Statistical Computing</p>
+                <div class="course-banner">
+                    <img src="images/R-Programming-Course.jpg" alt="R Programming Course Banner" class="img-fluid">
+                </div>
+                <div class="coach-section">
+                    <div class="coach-photo">
+                        <img src="images/instructor1.jpg" alt="Course Instructor" class="img-fluid rounded-circle" style="width: 120px; height: 120px; object-fit: cover;">
+                    </div>
+                    <div class="coach-info">
+                        <h3>Expert-Led Instruction</h3>
+                        <p><strong>Dr Aswath Karunakaran</strong><br>MBBS, MPH, MSc Health Sciences</p>
+                        <p>Learn from public health professionals with hands-on experience of 8 years</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="container">
+            <!-- Course Overview -->
+            <section id="overview">
+                <p class="lead">Take your data analysis skills to the next level with our comprehensive R programming course designed for beginners.</p>
+                
+                <div class="learning-objectives">
+                    <h3>What You'll Learn</h3>
+                    <ul>
+                        <li>Foundations of R programming and RStudio environment</li>
+                        <li>Data manipulation with dplyr and tidyr</li>
+                        <li>Data visualization with ggplot2</li>
+                        <li>Statistical analysis and modeling</li>
+                        <li>Creating interactive applications with Shiny</li>
+                        <li>R Markdown and Quarto for reproducible research</li>
+                        <li>Web scraping</li>
+                        <li>Capstone project</li>
+                    </ul>
+                </div>
+
+                <div class="schedule-info">
+                    <h3>📅 Class Schedule</h3>
+                    <p><strong>Every Sunday, 9:30 AM - 11:00 AM</strong></p>
+                    <p>Starting: August 3rd, 2025</p>
+                    <p>Duration: Approximately 3 months for completing Basics</p>
+                    <p>Format: Classes once a week in the weekend held over Google Meet</p>
+                </div>
+            </section>
+
+            <!-- Basic Curriculum -->
+            <section id="curriculum" class="mt-5">
+                <h2>Basic Curriculum</h2>
+                
+                <div class="curriculum-item">
+                    <h4>Basic 1: R Fundamentals</h4>
+                    <p>Introduction to R, RStudio interface, basic data types, vectors, matrices, data frames, and basic operations.</p>
+                </div>
+
+                <div class="curriculum-item">
+                    <h4>Basic 2: Data Manipulation</h4>
+                    <p>Working with the tidyverse, dplyr for data transformation, filtering, selecting, and summarizing data.</p>
+                </div>
+
+                <div class="curriculum-item">
+                    <h4>Basic 3: Data Visualization</h4>
+                    <p>Creating compelling visualizations with ggplot2, customizing plots, and creating publication-ready graphics.</p>
+                </div>
+
+                <div class="curriculum-item">
+                    <h4>Basic 4: Statistical Analysis</h4>
+                    <p>Descriptive statistics, hypothesis testing, and regression analysis in R. Implementing common statistical tests.</p>
+                </div>
+
+                <div class="curriculum-item">
+                    <h4>Basic 5: Finishing Round</h4>
+                    <p>Creating interactive dashboards with Shiny, functional programming, loops, conditionals, writing articles, creating academic tables, and web scraping.</p>
+                </div>
+
+                <div class="curriculum-item">
+                    <h4>Basic 6: Capstone Project</h4>
+                    <p>Consolidate your knowledge with a comprehensive project that demonstrates your R programming skills.</p>
+                </div>
+            </section>
+
+            <!-- Advanced Topics -->
+            <section id="advanced" class="mt-5">
+                <h2>Advanced Course Curriculum</h2>
+                
+                <div class="advanced-note">
+                    <h4>💡 Additional Fee Required</h4>
+                    <p>Advanced topics will require an additional fee of INR 900 which can be paid after you have finished Basics successfully.</p>
+                </div>
+
+                <div class="curriculum-item">
+                    <h4>Advanced 1: Infectious Disease Modelling</h4>
+                    <p>Learn to build and analyze epidemiological models using R for disease spread simulation and prediction.</p>
+                </div>
+
+                <div class="curriculum-item">
+                    <h4>Advanced 2: GIS Mapping</h4>
+                    <p>Geographic Information Systems in R - spatial data analysis, mapping, and geospatial visualization techniques.</p>
+                </div>
+
+                <div class="curriculum-item">
+                    <h4>Advanced 3: Health Economics and Outcomes Research</h4>
+                    <p>Economic evaluation methods, cost-effectiveness analysis, and health technology assessment using R.</p>
+                </div>
+
+                <div class="curriculum-item">
+                    <h4>Advanced 4: Simulation of Systems</h4>
+                    <p>Arrival and service time modelling, Hospital/clinic patient flow simulation</p>
+                </div>
+
+                <div class="curriculum-item">
+                    <h4>Advanced 5: Logistic Regression</h4>
+                    <p>Binary and multinomial logistic regression, model diagnostics, and interpretation of results.</p>
+                </div>
+
+                <div class="curriculum-item">
+                    <h4>Advanced 6: Introduction to Repeated Measurements</h4>
+                    <p>Longitudinal data analysis, mixed-effects models, and handling correlated observations.</p>
+                </div>
+
+                <div class="curriculum-item">
+                    <h4>Advanced 7: Survival Analysis</h4>
+                    <p>Time-to-event analysis, Kaplan-Meier curves, Cox proportional hazards models, and survival prediction.</p>
+                </div>
+
+                <div class="curriculum-item">
+                    <h4>Advanced 8: Time Series</h4>
+                    <p>Time series analysis, forecasting methods, ARIMA models, and seasonal decomposition.</p>
+                </div>
+            </section>
+
+            <!-- Key Features -->
+            <section id="features" class="mt-5">
+                <h2>Key Features & FAQ</h2>
+                
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>🎓 Continuous Learning</h4>
+                        <p>Classes are spread over several months instead of intensive workshops, perfectly suited to R's longer learning curve.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <h4>🤝 Ongoing Support</h4>
+                        <p>Continued support even after classes end, ensuring you don't lose momentum in your R journey.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <h4>🏆 Coding Challenges</h4>
+                        <p>Periodic coding challenges to sustain and improve your R usage skills even after the course.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <h4>📹 Video Recordings</h4>
+                        <p>All classes are recorded and provided to participants for review and future reference.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <h4>📚 Resource Materials</h4>
+                        <p>Comprehensive learning materials, code examples, and additional resources provided.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <h4>🏅 Certification</h4>
+                        <p>Certificates issued to participants who complete the course and capstone project successfully.</p>
+                    </div>
+                </div>
+
+                <h3 class="mt-5">Frequently Asked Questions</h3>
+
+                <div class="curriculum-item">
+                    <h4>Why choose continuous classes over workshops?</h4>
+                    <p>R has a steeper learning curve compared to other programming languages. Our continuous class format allows for better retention, practice between sessions, and gradual skill building. This approach is much more effective than intensive workshops for mastering R programming.</p>
+                </div>
+
+                <div class="curriculum-item">
+                    <h4>What if I miss a class?</h4>
+                    <p>All classes are recorded and made available to participants for review and future reference. If you miss a session, you can catch up on the content at your own pace through these recordings. Additionally, I offer compensation classes for those who need extra support or have scheduling conflicts. I am fully committed to ensuring that every participant has the opportunity to successfully complete the course.</p>
+                </div>
+
+                <div class="curriculum-item">
+                    <h4>Do I need prior programming experience?</h4>
+                    <p>No prior programming experience is required for the basic curriculum. We start from the fundamentals and gradually build up your skills.</p>
+                </div>
+
+                <div class="curriculum-item">
+                    <h4>What software do I need?</h4>
+                    <p>You'll need R and RStudio installed on your computer. Both are free software. We'll guide you through the installation process in the first class. An additional prerequisite is a good internet connection and a computer/laptop in good working condition.</p>
+                </div>
+
+                <div class="curriculum-item">
+                    <h4>How does the capstone project work?</h4>
+                    <p>The capstone project is a practical application where you'll use all the skills learned throughout the course to complete a real-world data analysis project. This project is required for certification.</p>
+                </div>
+
+                <div class="curriculum-item">
+                    <h4>Is this website containing course-details and registration made in R?</h4>
+                    <p>This very website is made in R with the help of a package called Shiny. Perhaps you want to make one too to host your resume perhaps. I will teach you how you can do it. Come join the course! What are you waiting for?</p>
+                </div>
+            </section>
+
+            <!-- Registration -->
+            <section id="registration" class="mt-5">
+                <h2>Ready to Master R Programming?</h2>
+                <p class="lead">Join our comprehensive R programming course and transform your data analysis capabilities.</p>
+                
+                <div class="schedule-info">
+                    <h3>🚀 Start Your Journey</h3>
+                    <p><strong>Next Batch Starts: December 6th, 2025</strong></p>
+                    <p>Limited seats available</p>
+                    <p>An inexpensive INR 900 for the basics course. Register for advanced after you finish Basics</p>
+                </div>
+
+                <div class="text-center">
+                    <a href="https://forms.gle/nbD5Nw6uccRcCx9F6" class="cta-button" target="_blank">📝 Register Now via Google Form</a>
+                </div>
+
+                <div class="mt-4">
+                    <h4>Accepted Payment Methods</h4>
+                    <img src="images/Payment-links.jpg" alt="Payment Options - UPI, Bank Transfer, Cards" class="img-fluid">
+                </div>
+
+                <div class="mt-4">
+                    <h4>What Happens After Registration?</h4>
+                    <ul>
+                        <li>You'll receive a confirmation WhatsApp message with payment confirmation</li>
+                        <li>Access to our course preparation materials</li>
+                        <li>Installation guide for R and RStudio</li>
+                        <li>Welcome starter pack with course materials</li>
+                        <li>Invitation to our course community WhatsApp group. Meeting links are shared here.</li>
+                    </ul>
+                </div>
+
+                <p class="mt-4">Have questions? Feel free to reach out to me (<a href="mailto:aswathkarunakaran@gmail.com">aswathkarunakaran@gmail.com</a>, Ph no- +91-9895973729/WhatsApp same number) before registering. We're here to help you succeed!</p>
+            </section>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center py-4" style="background-color: #1e3a8a; color: white;">
+        <p>&copy; 2025 Master R Programming. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>'''
+    
+    return html_content
+
+
+def main():
+    """Main function to generate the HTML file."""
+    html_content = generate_html()
+    
+    with open('index.html', 'w', encoding='utf-8') as f:
+        f.write(html_content)
+    
+    print("✓ Successfully generated index.html")
+    print("✓ Website is ready to be hosted on GitHub Pages!")
+
+
+if __name__ == '__main__':
+    main()
+
