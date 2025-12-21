@@ -56,11 +56,11 @@ def generate_html():
                 <h1 class="hero-title">Master R Programming</h1>
                 <p class="hero-subtitle">Professional Coaching Classes for Data Analysis & Statistical Computing</p>
                 <div class="course-banner">
-                    <img src="images/R-Programming-Course.jpg" alt="R Programming Course Banner" class="img-fluid">
+                    <img src="R-Programming-Course.jpg" alt="R Programming Course Banner" class="img-fluid">
                 </div>
                 <div class="coach-section">
                     <div class="coach-photo">
-                        <img src="images/instructor1.jpg" alt="Course Instructor" class="img-fluid rounded-circle" style="width: 120px; height: 120px; object-fit: cover;">
+                        <img src="instructor1.jpg" alt="Course Instructor" class="img-fluid rounded-circle" style="width: 120px; height: 120px; object-fit: cover;">
                     </div>
                     <div class="coach-info">
                         <h3>Expert-Led Instruction</h3>
@@ -274,7 +274,7 @@ def generate_html():
 
                 <div class="mt-4">
                     <h4>Accepted Payment Methods</h4>
-                    <img src="images/Payment-links.jpg" alt="Payment Options - UPI, Bank Transfer, Cards" class="img-fluid">
+                    <img src="Payment-links.jpg" alt="Payment Options - UPI, Bank Transfer, Cards" class="img-fluid">
                 </div>
 
                 <div class="mt-4">
