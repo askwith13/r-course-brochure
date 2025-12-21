@@ -96,7 +96,7 @@ def generate_html():
                 <div class="schedule-info">
                     <h3>📅 Class Schedule</h3>
                     <p><strong>Every Sunday, 9:30 AM - 11:00 AM</strong></p>
-                    <p>Starting: August 3rd, 2025</p>
+                    <p>Starting: January 3rd, 2025</p>
                     <p>Duration: Approximately 3 months for completing Basics</p>
                     <p>Format: Classes once a week in the weekend held over Google Meet</p>
                 </div>
@@ -232,7 +232,7 @@ def generate_html():
 
                 <div class="curriculum-item">
                     <h4>What if I miss a class?</h4>
-                    <p>All classes are recorded and made available to participants for review and future reference. If you miss a session, you can catch up on the content at your own pace through these recordings. Additionally, I offer compensation classes for those who need extra support or have scheduling conflicts. I am fully committed to ensuring that every participant has the opportunity to successfully complete the course.</p>
+                    <p>All classes are recorded and made available to participants for review and future reference. If you miss a session, you can catch up on the content at your own pace through these recordings. Additionally, I offer compensation classes for those who need extra support or have scheduling conflicts. I am fully committed to ensuring that every participant has the opportunity to successfully complete the course. do not recommend relying on session recordings as the sole source of learning, if that is your intention. Recordings inevitably miss several important nuances, such as real-time clarifications, troubleshooting, spontaneous questions from participants, contextual emphasis, and the iterative way concepts are refined during live interaction. In the absence of these elements, a well-structured and deliberately produced instructional video/content on platforms such as YouTube, w3schools, LinkedIn Learning, any MOOCS would often serve the purpose more effectively than a passive viewing of session recordings.</p>
                 </div>
 
                 <div class="curriculum-item">
