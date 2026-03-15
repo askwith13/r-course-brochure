@@ -95,10 +95,16 @@ def generate_html():
 
                 <div class="schedule-info">
                     <h3>📅 Class Schedule</h3>
-                    <p><strong>Every Saturday, 9:30 AM - 11:00 AM</strong></p>
-                    <p>Starting: January 3rd, 2026</p>
+                    <p><strong>Course starts: 28th March</strong></p>
+                    <p>Choose one of the following batch timings:</p>
+                    <ul>
+                        <li><strong>Batch 1:</strong> Saturday 11:30 AM – 1:00 PM</li>
+                        <li><strong>Batch 2:</strong> Sunday 8:00 AM – 9:30 AM</li>
+                        <li><strong>Batch 3:</strong> Sunday 6:00 PM – 7:30 PM</li>
+                        <li><strong>Batch 4 (potential):</strong> Timing to be decided by consensus among participants</li>
+                    </ul>
                     <p>Duration: Approximately 3 months for completing Basics</p>
-                    <p>Format: Classes once a week in the weekend held over Google Meet</p>
+                    <p>Format: Classes once a week on weekends, held over Google Meet</p>
                 </div>
             </section>
 
@@ -263,7 +269,7 @@ def generate_html():
                 
                 <div class="schedule-info">
                     <h3>🚀 Start Your Journey</h3>
-                    <p><strong>Next Batch Starts: January 3rd, 2026</strong></p>
+                    <p><strong>Course starts: 28th March</strong></p>
                     <p>Limited seats available</p>
                     <p>An inexpensive INR 900 for the basics course. Register for advanced after you finish Basics</p>
                 </div>

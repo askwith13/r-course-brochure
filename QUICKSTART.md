@@ -54,7 +54,10 @@ Just follow steps 1-2 above, then:
 ## Troubleshooting
 
 - **404 Error**: Make sure `index.html` is in the root directory
-- **Images not loading**: Check that `images/` folder is included in git
+- **Images not loading**: 
+  - ⚠️ If testing locally: Don't open `index.html` directly in browser. Use `python3 -m http.server 8000` and visit `http://localhost:8000`
+  - For GitHub Pages: Make sure `images/` folder is included in git and pushed to repository
+  - Check browser console (F12) for any path errors
 - **Styling broken**: Verify `styles.css` is in the root directory
 - **Site not updating**: Wait 1-2 minutes, GitHub Pages can take time to update
 

@@ -40,12 +40,13 @@ A professional brochure website for R Programming courses, built with Python and
    ```
 
 3. **Open in browser**
-   - Simply open `index.html` in your web browser
-   - Or use a local server:
+   - ⚠️ **Important**: Don't open `index.html` directly in your browser (file:// protocol won't load images)
+   - Use a local server instead:
      ```bash
      python3 -m http.server 8000
      ```
-     Then visit `http://localhost:8000`
+     Then visit `http://localhost:8000` in your browser
+   - Images will only load when served through HTTP, not when opening the file directly
 
 ### Hosting on GitHub Pages
 
