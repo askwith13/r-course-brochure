@@ -95,7 +95,7 @@ def generate_html():
 
                 <div class="schedule-info">
                     <h3>📅 Class Schedule</h3>
-                    <p><strong>Course starts: 28th March</strong></p>
+                    <p><strong>Course starts: 28th March 2026</strong></p>
                     <p>Choose one of the following batch timings:</p>
                     <ul>
                         <li><strong>Batch 1:</strong> Saturday 11:30 AM – 1:00 PM</li>
@@ -269,7 +269,7 @@ def generate_html():
                 
                 <div class="schedule-info">
                     <h3>🚀 Start Your Journey</h3>
-                    <p><strong>Course starts: 28th March</strong></p>
+                    <p><strong>Course starts: 28th March 2026</strong></p>
                     <p>Limited seats available</p>
                     <p>An inexpensive INR 900 for the basics course. Register for advanced after you finish Basics</p>
                 </div>
