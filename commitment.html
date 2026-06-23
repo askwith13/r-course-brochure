@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Commitment Planner — Master R Programming</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <style>
+        .commitment-hero {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            color: white;
+            padding: 60px 0 40px;
+            position: relative;
+            overflow: hidden;
+        }
+        .commitment-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+        .commitment-hero .container { position: relative; z-index: 1; }
+        .commitment-hero h1 { font-size: 2.8rem; font-weight: 700; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+        .commitment-hero p { font-size: 1.15rem; opacity: 0.93; max-width: 680px; margin: 0 auto; }
+
+        /* Google Form CTA banner */
+        .form-cta-banner {
+            background: linear-gradient(135deg, #dc2626 0%, #f97316 100%);
+            color: white;
+            border-radius: 16px;
+            padding: 2rem 2.5rem;
+            margin: -32px auto 2.5rem;
+            position: relative;
+            z-index: 10;
+            box-shadow: 0 8px 32px rgba(220,38,38,0.35);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .form-cta-banner .cta-text h2 {
+            font-size: 1.35rem;
+            font-weight: 700;
+            margin: 0 0 0.3rem;
+        }
+        .form-cta-banner .cta-text p { margin: 0; opacity: 0.92; font-size: 0.95rem; }
+        .form-cta-banner .cta-text h2::after { display: none; }
+        .form-cta-btn {
+            background: white;
+            color: #dc2626;
+            font-weight: 700;
+            font-size: 1rem;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            white-space: nowrap;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            flex-shrink: 0;
+        }
+        .form-cta-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+            color: #b91c1c;
+        }
+
+        /* Part cards */
+        .part-card {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid #e9ecef;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+            margin-bottom: 1.75rem;
+            overflow: hidden;
+            transition: box-shadow 0.2s ease;
+        }
+        .part-card:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.11); }
+        .part-card-header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            color: white;
+            padding: 1.1rem 1.75rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .part-number {
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.95rem;
+            flex-shrink: 0;
+        }
+        .part-card-header h3 { margin: 0; font-size: 1.1rem; font-weight: 600; }
+        .part-card-header h3::after { display: none; }
+        .part-card-body { padding: 1.75rem; }
+
+        /* Hours block */
+        .commitment-hours {
+            background: #f0f4ff;
+            border-left: 4px solid #3b82f6;
+            border-radius: 0 8px 8px 0;
+            padding: 1rem 1.5rem;
+            margin-bottom: 1.25rem;
+            font-size: 0.97rem;
+        }
+        .commitment-hours .hours-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.3rem 0;
+            border-bottom: 1px solid #dbeafe;
+        }
+        .commitment-hours .hours-row:last-child { border-bottom: none; padding-bottom: 0; }
+        .commitment-hours .hours-row:first-child { padding-top: 0; }
+        .hours-total { font-weight: 700; color: #1e3a8a; font-size: 1.05rem; }
+
+        /* Question items */
+        .question-item {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.1rem 1.3rem;
+            margin-bottom: 1rem;
+        }
+        .question-item:last-child { margin-bottom: 0; }
+        .question-label {
+            font-weight: 600;
+            color: #1e3a8a;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.4rem;
+        }
+        .question-text { font-size: 1rem; color: #1f2937; margin-bottom: 0.5rem; line-height: 1.55; }
+        .question-hint { font-size: 0.85rem; color: #6b7280; font-style: italic; margin: 0; }
+
+        /* ── Learner Quiz ── */
+        .quiz-intro {
+            background: linear-gradient(135deg, #f0f4ff 0%, #faf5ff 100%);
+            border: 1px solid #c7d2fe;
+            border-radius: 10px;
+            padding: 1.2rem 1.5rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+            color: #374151;
+        }
+
+        .quiz-question { margin-bottom: 1.5rem; }
+        .quiz-question-text {
+            font-weight: 600;
+            color: #1e3a8a;
+            font-size: 1rem;
+            margin-bottom: 0.75rem;
+            line-height: 1.5;
+        }
+        .quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+        .quiz-option {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            font-size: 0.9rem;
+            color: #374151;
+            line-height: 1.4;
+            transition: border-color 0.18s ease, background 0.18s ease, transform 0.15s ease;
+            user-select: none;
+        }
+        .quiz-option:hover { border-color: #93c5fd; background: #eff6ff; transform: translateY(-1px); }
+        .quiz-option.selected {
+            border-color: #3b82f6;
+            background: #eff6ff;
+            color: #1e3a8a;
+            font-weight: 600;
+        }
+        .quiz-option .opt-icon { font-size: 1.1rem; display: block; margin-bottom: 0.25rem; }
+
+        /* Progress bar */
+        .quiz-progress-wrap { margin-bottom: 1.5rem; }
+        .quiz-progress-label {
+            font-size: 0.82rem;
+            color: #6b7280;
+            margin-bottom: 0.35rem;
+            display: flex;
+            justify-content: space-between;
+        }
+        .quiz-progress-bar-bg {
+            background: #e9ecef;
+            border-radius: 50px;
+            height: 6px;
+            overflow: hidden;
+        }
+        .quiz-progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #1e3a8a, #3b82f6);
+            border-radius: 50px;
+            transition: width 0.4s ease;
+            width: 0%;
+        }
+
+        /* Profile result card */
+        .profile-result {
+            display: none;
+            border-radius: 14px;
+            overflow: hidden;
+            margin-top: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            animation: slideIn 0.5s ease;
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(16px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .profile-header {
+            padding: 1.5rem 2rem;
+            color: white;
+        }
+        .profile-header .profile-icon { font-size: 2.5rem; display: block; margin-bottom: 0.5rem; }
+        .profile-header h4 { font-size: 1.3rem; font-weight: 700; margin: 0 0 0.2rem; }
+        .profile-header .profile-tag {
+            font-size: 0.8rem;
+            opacity: 0.85;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+        .profile-body { background: white; padding: 1.5rem 2rem; }
+        .profile-body p { font-size: 0.97rem; color: #374151; line-height: 1.65; margin-bottom: 0.85rem; }
+        .profile-body p:last-child { margin-bottom: 0; }
+        .profile-watch {
+            background: #fef9c3;
+            border-left: 3px solid #eab308;
+            border-radius: 0 6px 6px 0;
+            padding: 0.7rem 1rem;
+            font-size: 0.9rem;
+            color: #713f12;
+            margin-top: 0.5rem;
+        }
+        .profile-watch strong { color: #92400e; }
+
+        .profile-active   .profile-header { background: linear-gradient(135deg, #1e3a8a, #3b82f6); }
+        .profile-achiever .profile-header { background: linear-gradient(135deg, #0f766e, #14b8a6); }
+        .profile-explorer .profile-header { background: linear-gradient(135deg, #7c3aed, #a78bfa); }
+        .profile-guided   .profile-header { background: linear-gradient(135deg, #b45309, #f59e0b); }
+        .profile-struggler .profile-header { background: linear-gradient(135deg, #991b1b, #ef4444); }
+        .profile-balanced .profile-header { background: linear-gradient(135deg, #374151, #6b7280); }
+
+        .profile-note {
+            background: #f0f4ff;
+            border-radius: 8px;
+            padding: 0.9rem 1.2rem;
+            font-size: 0.88rem;
+            color: #3730a3;
+            margin-top: 1rem;
+            text-align: center;
+        }
+
+        /* If-then cards */
+        .ifthen-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
+        .ifthen-card { border-radius: 10px; padding: 1.25rem; border: 1px solid; }
+        .ifthen-card.miss   { background: #fef3c7; border-color: #f59e0b; }
+        .ifthen-card.behind { background: #fee2e2; border-color: #f87171; }
+        .ifthen-card.quit   { background: #ede9fe; border-color: #a78bfa; }
+        .ifthen-card .if-label { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.35rem; }
+        .ifthen-card.miss   .if-label { color: #92400e; }
+        .ifthen-card.behind .if-label { color: #991b1b; }
+        .ifthen-card.quit   .if-label { color: #5b21b6; }
+        .ifthen-card .if-scenario { font-weight: 600; font-size: 0.97rem; margin-bottom: 0.6rem; }
+        .ifthen-card .then-label { font-size: 0.78rem; color: #6b7280; font-style: italic; }
+
+        /* Pledge */
+        .pledge-block {
+            background: linear-gradient(135deg, #f0f4ff 0%, #ede9fe 100%);
+            border: 1px solid #c7d2fe;
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+        }
+        .pledge-block blockquote {
+            font-size: 1.05rem;
+            font-style: italic;
+            color: #1e3a8a;
+            line-height: 1.7;
+            margin: 0 0 1.25rem;
+            border: none;
+            padding: 0;
+        }
+
+        /* Bottom CTA */
+        .bottom-cta {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            color: white;
+            border-radius: 16px;
+            padding: 2.5rem;
+            text-align: center;
+            margin: 2rem 0 3rem;
+        }
+        .bottom-cta h2 { color: white; font-size: 1.6rem; }
+        .bottom-cta h2::after { display: none; }
+        .bottom-cta p { opacity: 0.9; font-size: 1rem; margin-bottom: 1.5rem; }
+
+        .insight-pill {
+            display: inline-block;
+            background: rgba(59,130,246,0.12);
+            color: #1e3a8a;
+            border-radius: 50px;
+            padding: 0.3rem 0.9rem;
+            font-size: 0.82rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 640px) {
+            .commitment-hero h1 { font-size: 2rem; }
+            .form-cta-banner { flex-direction: column; text-align: center; }
+            .ifthen-grid { grid-template-columns: 1fr; }
+            .quiz-options { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-default">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">Master R Programming</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html#overview">Course Overview</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.html#curriculum">Curriculum</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.html#features">Key Features</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.html#registration">Register</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="commitment.html">Commitment Planner</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section class="commitment-hero text-center">
+        <div class="container">
+            <div data-aos="fade-down">
+                <h1>Setting Yourself Up to Finish</h1>
+                <p class="mt-3">Your 3-Month R Programming Plan &mdash; because the people who finish aren't the ones with the most free time. They're the ones who made a plan.</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="main-content" style="padding-top: 0;">
+        <div class="container" style="max-width: 820px;">
+
+            <!-- Google Form CTA Banner -->
+            <div class="form-cta-banner" data-aos="zoom-in">
+                <div class="cta-text">
+                    <h2>📋 Ready to commit? Fill in the Google Form</h2>
+                    <p>Read through this page first — including the learner quiz in Part 3 — then submit your answers via the form. Takes about 10 minutes.</p>
+                </div>
+                <a href="https://forms.gle/ctViiYzoJYshG5wr5" class="form-cta-btn" target="_blank">Open the Form →</a>
+            </div>
+
+            <p class="lead mb-4" data-aos="fade-up">This isn't a test, and there are no wrong answers. People who finish online courses almost never have more free time than people who drop &mdash; they've just made a concrete plan and decided in advance how they'll handle the weeks that get hard. Be honest with yourself.</p>
+
+            <!-- Part 1: The Real Commitment -->
+            <div class="part-card" data-aos="fade-up">
+                <div class="part-card-header">
+                    <div class="part-number">1</div>
+                    <h3>The Real Commitment</h3>
+                </div>
+                <div class="part-card-body">
+                    <p class="mb-3">Over the next 3 months, this course asks for roughly:</p>
+                    <div class="commitment-hours">
+                        <div class="hours-row">
+                            <span>Live class per week</span>
+                            <strong>1.5 hours</strong>
+                        </div>
+                        <div class="hours-row">
+                            <span>Practice / homework per week</span>
+                            <strong>15 minutes</strong>
+                        </div>
+                        <div class="hours-row hours-total">
+                            <span>Total per week, for 12 weeks</span>
+                            <span>~1 hr 45 min</span>
+                        </div>
+                    </div>
+                    <div class="question-item">
+                        <div class="question-label">Q1</div>
+                        <p class="question-text">Looking at that honestly: does it fit into your life right now?</p>
+                        <p class="question-hint">Options: Yes, comfortably &nbsp;/&nbsp; Yes, but tight — I'll need a plan &nbsp;/&nbsp; I'm not sure — this is what I need to figure out<br><br>"Tight but planned" finishes more often than "comfortable but vague."</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Part 2: Your Why -->
+            <div class="part-card" data-aos="fade-up" data-aos-delay="50">
+                <div class="part-card-header">
+                    <div class="part-number">2</div>
+                    <h3>Your "Why"</h3>
+                </div>
+                <div class="part-card-body">
+                    <p class="mb-3">People push through the hard weeks when they remember why they started.</p>
+                    <div class="question-item">
+                        <div class="question-label">Q2</div>
+                        <p class="question-text">Why do you want to learn R?</p>
+                        <p class="question-hint">Be specific. "To analyse my own data at work" beats "to learn coding."</p>
+                    </div>
+                    <div class="question-item">
+                        <div class="question-label">Q3</div>
+                        <p class="question-text">What's one concrete thing you want to be able to do with R by the end of this course?</p>
+                        <p class="question-hint">e.g. "Make my monthly report charts myself," "clean a messy dataset without Excel," "build a simple dashboard for my department."</p>
+                    </div>
+                    <div class="question-item">
+                        <div class="question-label">Q4</div>
+                        <p class="question-text">Why now, and not six months ago or six months from now?</p>
+                        <p class="question-hint">Knowing your timing motivation helps you reconnect with it when things get hard.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Part 3: Learner Profile Quiz -->
+            <div class="part-card" data-aos="fade-up" data-aos-delay="50">
+                <div class="part-card-header">
+                    <div class="part-number">3</div>
+                    <h3>Your Learner Profile</h3>
+                </div>
+                <div class="part-card-body">
+                    <div class="quiz-intro">
+                        <strong>This is a reflection exercise, not a test.</strong> There are no right or wrong answers, and your responses don't affect your place in the course. The goal is to help you understand your own learning style — and help Dr. Aswath understand how best to support you. Click your answer for each question, then see your profile at the bottom.
+                    </div>
+
+                    <!-- Progress -->
+                    <div class="quiz-progress-wrap">
+                        <div class="quiz-progress-label">
+                            <span>Questions answered</span>
+                            <span id="quiz-count">0 / 6</span>
+                        </div>
+                        <div class="quiz-progress-bar-bg">
+                            <div class="quiz-progress-bar-fill" id="quiz-bar"></div>
+                        </div>
+                    </div>
+
+                    <!-- Q-A -->
+                    <div class="quiz-question" data-q="A">
+                        <div class="quiz-question-text">A. In a class or learning environment, you tend to:</div>
+                        <div class="quiz-options">
+                            <div class="quiz-option" data-social="2" data-help="1" onclick="selectOption(this)">
+                                <span class="opt-icon">🙋</span>Ask questions freely and participate openly — interaction energises me
+                            </div>
+                            <div class="quiz-option" data-social="0" data-help="0" onclick="selectOption(this)">
+                                <span class="opt-icon">🤔</span>Listen carefully first, then contribute once I feel ready
+                            </div>
+                            <div class="quiz-option" data-social="-1" data-help="-1" onclick="selectOption(this)">
+                                <span class="opt-icon">🎧</span>Stay quiet in class but work hard on my own afterwards
+                            </div>
+                            <div class="quiz-option" data-social="-2" data-help="-1" onclick="selectOption(this)">
+                                <span class="opt-icon">🔇</span>Mostly observe — I rarely volunteer unless directly asked
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Q-B -->
+                    <div class="quiz-question" data-q="B">
+                        <div class="quiz-question-text">B. When something confuses you during a lesson, your first instinct is to:</div>
+                        <div class="quiz-options">
+                            <div class="quiz-option" data-help="2" onclick="selectOption(this)">
+                                <span class="opt-icon">✋</span>Ask immediately — staying confused is worse than looking slow
+                            </div>
+                            <div class="quiz-option" data-help="0" onclick="selectOption(this)">
+                                <span class="opt-icon">⏳</span>Wait and see if the next explanation clears it up
+                            </div>
+                            <div class="quiz-option" data-help="-1" data-pace="1" onclick="selectOption(this)">
+                                <span class="opt-icon">🔍</span>Note it down and look it up myself first
+                            </div>
+                            <div class="quiz-option" data-help="-2" data-resilience="-1" onclick="selectOption(this)">
+                                <span class="opt-icon">🤫</span>Let it pass and hope it makes sense later
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Q-C -->
+                    <div class="quiz-question" data-q="C">
+                        <div class="quiz-question-text">C. Are you generally an extrovert or an introvert?</div>
+                        <div class="quiz-options">
+                            <div class="quiz-option" data-social="2" onclick="selectOption(this)">
+                                <span class="opt-icon">🌟</span>Extrovert — I gain energy from people and group settings
+                            </div>
+                            <div class="quiz-option" data-social="1" onclick="selectOption(this)">
+                                <span class="opt-icon">🌤️</span>Mostly extrovert, but I need downtime to recharge
+                            </div>
+                            <div class="quiz-option" data-social="-1" onclick="selectOption(this)">
+                                <span class="opt-icon">🌙</span>Mostly introvert — I prefer smaller interactions and solo work
+                            </div>
+                            <div class="quiz-option" data-social="-2" onclick="selectOption(this)">
+                                <span class="opt-icon">🔋</span>Introvert — group settings drain me; I think best alone
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Q-D -->
+                    <div class="quiz-question" data-q="D">
+                        <div class="quiz-question-text">D. If you fell two weeks behind in this course, your honest reaction would be:</div>
+                        <div class="quiz-options">
+                            <div class="quiz-option" data-help="2" data-resilience="2" onclick="selectOption(this)">
+                                <span class="opt-icon">📱</span>Message Dr. Aswath right away and make a catch-up plan
+                            </div>
+                            <div class="quiz-option" data-help="-1" data-resilience="1" onclick="selectOption(this)">
+                                <span class="opt-icon">💪</span>Quietly work double-time to catch up on my own
+                            </div>
+                            <div class="quiz-option" data-help="-2" data-resilience="-1" onclick="selectOption(this)">
+                                <span class="opt-icon">😳</span>Feel too embarrassed to bring it up — I'd hope no one notices
+                            </div>
+                            <div class="quiz-option" data-help="-2" data-resilience="-2" onclick="selectOption(this)">
+                                <span class="opt-icon">🚪</span>Probably start drifting out of the course
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Q-E -->
+                    <div class="quiz-question" data-q="E">
+                        <div class="quiz-question-text">E. When learning something new and technical, you prefer:</div>
+                        <div class="quiz-options">
+                            <div class="quiz-option" data-pace="2" onclick="selectOption(this)">
+                                <span class="opt-icon">🗺️</span>Give me the concept and let me explore — I figure out the details myself
+                            </div>
+                            <div class="quiz-option" data-pace="1" onclick="selectOption(this)">
+                                <span class="opt-icon">📖</span>Show me a working example, then let me adapt it freely
+                            </div>
+                            <div class="quiz-option" data-pace="-1" onclick="selectOption(this)">
+                                <span class="opt-icon">📋</span>Walk me through it step by step before I try on my own
+                            </div>
+                            <div class="quiz-option" data-pace="-2" onclick="selectOption(this)">
+                                <span class="opt-icon">🔁</span>Watch you do it multiple times before I attempt anything
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Q-F -->
+                    <div class="quiz-question" data-q="F">
+                        <div class="quiz-question-text">F. Which of these sounds most like you?</div>
+                        <div class="quiz-options">
+                            <div class="quiz-option" data-help="2" onclick="selectOption(this)">
+                                <span class="opt-icon">🤝</span>I reach out quickly when stuck — no point spinning my wheels
+                            </div>
+                            <div class="quiz-option" data-help="1" data-pace="1" onclick="selectOption(this)">
+                                <span class="opt-icon">⏱️</span>I try for a reasonable time, then ask
+                            </div>
+                            <div class="quiz-option" data-help="-1" data-pace="1" onclick="selectOption(this)">
+                                <span class="opt-icon">🧩</span>I prefer to solve things independently, even if it takes longer
+                            </div>
+                            <div class="quiz-option" data-help="-2" onclick="selectOption(this)">
+                                <span class="opt-icon">🔕</span>I often don't ask even when I should — it's hard to admit I'm stuck
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Profile result -->
+                    <div class="profile-result" id="profile-result"></div>
+
+                    <div class="profile-note" id="profile-note" style="display:none;">
+                        <strong>Note your learner profile</strong> — you'll be asked to share it in the Google Form so Dr. Aswath knows how to best support you.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Part 4: Your Weekly Plan -->
+            <div class="part-card" data-aos="fade-up" data-aos-delay="50">
+                <div class="part-card-header">
+                    <div class="part-number">4</div>
+                    <h3>Your Weekly Plan</h3>
+                </div>
+                <div class="part-card-body">
+                    <span class="insight-pill">💡 Research insight</span>
+                    <p class="mb-3">Naming a specific time and place beats simply intending to find time. This is the most important part of the whole planner. Vague intentions ("I'll find time on weekends") fail almost every time. Concrete plans ("Saturday 6 pm, at my desk, after dinner") do not.</p>
+
+                    <div class="question-item">
+                        <div class="question-label">Q5 — Class batch</div>
+                        <p class="question-text">Which batch will you attend?</p>
+                        <p class="question-hint">
+                            Batch 1: Saturday 11:30 AM – 1:00 PM<br>
+                            Batch 2: Saturday 6:00 PM – 7:30 PM<br>
+                            Batch 3: Sunday 8:00 AM – 9:30 AM<br><br>
+                            Write it down: <em>I will attend class every ________ at ________.</em>
+                        </p>
+                    </div>
+
+                    <div class="question-item">
+                        <div class="question-label">Q6 — Protecting the slot</div>
+                        <p class="question-text">Is there anything in your life that regularly competes with your chosen class time — family responsibilities, calls, work overruns? How will you protect the slot?</p>
+                        <p class="question-hint">e.g. "Sunday mornings are usually free but I'll tell my family not to schedule anything." Be specific about the threat and your counter-move.</p>
+                    </div>
+
+                    <div class="question-item">
+                        <div class="question-label">Q7 — Backup batch</div>
+                        <p class="question-text">If your chosen batch is unavailable one week (travel, illness, clash), which of the other batches could you attend instead?</p>
+                        <p class="question-hint">Having a fallback prevents a single disruption from becoming a two-week gap.</p>
+                    </div>
+
+                    <div class="question-item">
+                        <div class="question-label">Q8 — Practice slot</div>
+                        <p class="question-text">When exactly will you do your 15-minute weekly practice? Name a specific day, time, and place.</p>
+                        <p class="question-hint">e.g. "Monday 9 pm, at my desk, once the kids are in bed." 15 minutes is deliberately small — the goal is consistency, not volume. Even on a terrible week, 15 minutes is doable.</p>
+                    </div>
+
+                    <div class="question-item">
+                        <div class="question-label">Q9 — What your 15 minutes will look like</div>
+                        <p class="question-text">What will you actually do during your weekly practice time?</p>
+                        <p class="question-hint">
+                            Options (pick what fits you best):<br>
+                            • Re-run the week's code from scratch without looking at the class notes<br>
+                            • Try the exercise set, then check against the solution<br>
+                            • Explore one thing from the lesson that I was curious about<br>
+                            • Redo the part I found most confusing until it clicks<br><br>
+                            Being specific here prevents the 15 minutes from becoming "open RStudio, stare at screen, close it."
+                        </p>
+                    </div>
+
+                    <div class="question-item">
+                        <div class="question-label">Q10 — Your practice setup</div>
+                        <p class="question-text">Where will you practice R, and on what device?</p>
+                        <p class="question-hint">
+                            e.g. "Windows laptop on my desk" / "Mac in the living room" / "Work laptop (I'll need to install R separately)"<br><br>
+                            Knowing your setup in advance helps catch technical blockers early — R and RStudio need to be installed and working before the first class. If there's any uncertainty about your device, flag it in Q12 so we can sort it out before Day 1.
+                        </p>
+                    </div>
+
+                    <div class="question-item">
+                        <div class="question-label">Q11 — Calendar block</div>
+                        <p class="question-text">Block your class slot and your practice slot into your calendar right now as recurring events for the next 12 weeks.</p>
+                        <p class="question-hint">Done? ✓ &nbsp; It takes under 2 minutes and is one of the single highest-leverage actions you can take for course completion. Don't leave this page without doing it.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Part 5: Programming Background -->
+            <div class="part-card" data-aos="fade-up" data-aos-delay="50">
+                <div class="part-card-header">
+                    <div class="part-number">5</div>
+                    <h3>Your Programming Background</h3>
+                </div>
+                <div class="part-card-body">
+                    <p class="mb-3">There are no right answers here. This course is designed for beginners, and prior experience is neither required nor assumed. Your answers help Dr. Aswath calibrate explanations and anticipate where you might need more or less support.</p>
+
+                    <div class="question-item">
+                        <div class="question-label">Q12 — Prior coding experience</div>
+                        <p class="question-text">Have you written code before in any language?</p>
+                        <p class="question-hint">
+                            Options — pick the one that fits best:<br>
+                            • Never written a line of code in my life<br>
+                            • Done a few online tutorials (Codecademy, YouTube, etc.) but nothing sustained<br>
+                            • I use Excel formulas, macros, or VBA regularly<br>
+                            • I know another language: Python / SPSS syntax / Stata do-files / SAS / SQL / other<br>
+                            • I'm comfortable with multiple languages or have a software background
+                        </p>
+                    </div>
+
+                    <div class="question-item">
+                        <div class="question-label">Q13 — Experience with R specifically</div>
+                        <p class="question-text">Have you used R before?</p>
+                        <p class="question-hint">
+                            Options:<br>
+                            • Never — this will be my first contact with R<br>
+                            • I've seen R code (in papers, tutorials) but never written any<br>
+                            • I've tried a tutorial or two but didn't get far<br>
+                            • I've used R for a specific project or course<br>
+                            • I use R occasionally and can write basic scripts on my own
+                        </p>
+                    </div>
+
+                    <div class="question-item">
+                        <div class="question-label">Q14 — Familiarity with core programming concepts</div>
+                        <p class="question-text">How comfortable are you with these ideas: variables, functions, loops, conditional logic (if/else)?</p>
+                        <p class="question-hint">
+                            Options:<br>
+                            • I don't know what any of these mean — genuinely starting from zero<br>
+                            • I've heard the terms but couldn't explain them confidently<br>
+                            • I understand the concepts but struggle to write them in code<br>
+                            • Comfortable — I use these regularly in some form
+                        </p>
+                    </div>
+
+                    <div class="question-item">
+                        <div class="question-label">Q15 — Your device</div>
+                        <p class="question-text">What device will you primarily use for the course?</p>
+                        <p class="question-hint">
+                            Options:<br>
+                            • Windows laptop or desktop<br>
+                            • Mac (macOS)<br>
+                            • Linux<br>
+                            • I share a device and can't always guarantee access<br>
+                            • I don't currently have a suitable device <em>(please flag this — we can discuss options)</em>
+                        </p>
+                    </div>
+
+                    <div class="question-item">
+                        <div class="question-label">Q16 — Technology concerns</div>
+                        <p class="question-text">Is there anything about the technology setup that worries you — slow internet, an old machine, restrictions on installing software, etc.?</p>
+                        <p class="question-hint">Better to surface these now than discover them during the first class. No concern is too small to mention.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Part 6: Statistics Background -->
+            <div class="part-card" data-aos="fade-up" data-aos-delay="50">
+                <div class="part-card-header">
+                    <div class="part-number">6</div>
+                    <h3>Your Statistics Background</h3>
+                </div>
+                <div class="part-card-body">
+                    <p class="mb-3">R is a statistical computing language — statistics and code are intertwined. You don't need to arrive with a statistics background, but knowing where you're starting from helps the course meet you there.</p>
+
+                    <div class="question-item">
+                        <div class="question-label">Q17 — Formal statistics training</div>
+                        <p class="question-text">Have you studied statistics?</p>
+                        <p class="question-hint">
+                            Options:<br>
+                            • No formal exposure — I haven't studied statistics at all<br>
+                            • Brief coverage in school (basic graphs, mean/median, maybe probability)<br>
+                            • One statistics or biostatistics course at university<br>
+                            • Multiple courses (research methods, epidemiology, econometrics, etc.)<br>
+                            • I work with statistics professionally or use it routinely in research
+                        </p>
+                    </div>
+
+                    <div class="question-item">
+                        <div class="question-label">Q18 — Concepts you're comfortable with</div>
+                        <p class="question-text">Which of these do you understand well enough to explain to a colleague? (Tick all that apply in the form)</p>
+                        <p class="question-hint">
+                            • Mean, median, mode — descriptive statistics<br>
+                            • Standard deviation and variance<br>
+                            • Probability and distributions (normal distribution, etc.)<br>
+                            • p-values and hypothesis testing (null hypothesis, significance)<br>
+                            • Confidence intervals<br>
+                            • Correlation vs. causation<br>
+                            • Linear regression<br>
+                            • None of the above — and that's fine, we start from the beginning
+                        </p>
+                    </div>
+
+                    <div class="question-item">
+                        <div class="question-label">Q19 — Prior data analysis</div>
+                        <p class="question-text">Have you ever analysed real data — in any tool?</p>
+                        <p class="question-hint">
+                            Options:<br>
+                            • No — I've never done any data analysis<br>
+                            • Yes, basic Excel (sorting, filtering, charts, pivot tables)<br>
+                            • Yes, using statistical software (SPSS, Stata, SAS, GraphPad, etc.)<br>
+                            • Yes, using R or Python (even minimally)<br>
+                            • Yes, extensively — data analysis is part of my current work
+                        </p>
+                    </div>
+
+                    <div class="question-item">
+                        <div class="question-label">Q20 — Your biggest gap or anxiety in statistics</div>
+                        <p class="question-text">Is there a specific area of statistics that you find confusing, intimidating, or have always struggled with?</p>
+                        <p class="question-hint">e.g. "p-values never made sense to me," "I can calculate things but don't know how to interpret them," "I panic when I see formulas." Be honest — this helps Dr. Aswath anticipate where you'll need extra time and different explanations.</p>
+                    </div>
+
+                    <div class="question-item">
+                        <div class="question-label">Q21 — Your domain</div>
+                        <p class="question-text">What field or domain will most of your data come from?</p>
+                        <p class="question-hint">e.g. Public health / clinical research / epidemiology / economics / ecology / social sciences / business / engineering / other. Knowing this helps ground examples in contexts that are relevant to you.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Part 7: Hard Weeks -->
+            <div class="part-card" data-aos="fade-up" data-aos-delay="50">
+                <div class="part-card-header">
+                    <div class="part-number">7</div>
+                    <h3>Planning for the Hard Weeks</h3>
+                </div>
+                <div class="part-card-body">
+                    <p class="mb-3">Almost everyone misses a class or falls behind at some point. That's normal and recoverable. The people who quit are the ones who didn't decide in advance what they'd do. So let's decide now.</p>
+                    <div class="question-item mb-3">
+                        <div class="question-label">Q22</div>
+                        <p class="question-text">What's the single most likely thing to get in the way over the next 3 months?</p>
+                        <p class="question-hint">Work crunch, travel, family, motivation dip, a topic that confuses you — name it honestly.</p>
+                    </div>
+                    <p class="fw-semibold mb-2" style="color:#1e3a8a;">Q23 — Your if-then plans:</p>
+                    <div class="ifthen-grid">
+                        <div class="ifthen-card miss">
+                            <div class="if-label">Scenario A</div>
+                            <div class="if-scenario">If I miss a class…</div>
+                            <div class="then-label">…then I will: (write your plan in the form)</div>
+                            <p class="mt-2 mb-0" style="font-size:0.85rem; color:#78350f;">e.g. "Watch the recording before the next session and message the group if I'm stuck."</p>
+                        </div>
+                        <div class="ifthen-card behind">
+                            <div class="if-label">Scenario B</div>
+                            <div class="if-scenario">If I fall behind…</div>
+                            <div class="then-label">…then I will: (write your plan in the form)</div>
+                            <p class="mt-2 mb-0" style="font-size:0.85rem; color:#7f1d1d;">e.g. "Focus on the core exercise and message Dr. Aswath before skipping ahead."</p>
+                        </div>
+                        <div class="ifthen-card quit">
+                            <div class="if-label">Scenario C</div>
+                            <div class="if-scenario">If I feel like quitting…</div>
+                            <div class="then-label">…then I will: (write your plan in the form)</div>
+                            <p class="mt-2 mb-0" style="font-size:0.85rem; color:#4c1d95;">e.g. "Re-read my answer to Q3 and message one classmate before deciding."</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Part 8: Support -->
+            <div class="part-card" data-aos="fade-up" data-aos-delay="50">
+                <div class="part-card-header">
+                    <div class="part-number">8</div>
+                    <h3>Support and Accountability</h3>
+                </div>
+                <div class="part-card-body">
+                    <p class="mb-3">You're far more likely to finish if even one other person notices whether you show up.</p>
+                    <div class="question-item">
+                        <div class="question-label">Q24</div>
+                        <p class="question-text">Who will you tell that you're doing this course?</p>
+                        <p class="question-hint">A friend, partner, colleague, or the class WhatsApp group — naming someone makes it real.</p>
+                    </div>
+                    <div class="question-item">
+                        <div class="question-label">Q25</div>
+                        <p class="question-text">Would you like to be paired with a study buddy from your cohort?</p>
+                        <p class="question-hint">Options: Yes please &nbsp;/&nbsp; Maybe later &nbsp;/&nbsp; No thanks</p>
+                    </div>
+                    <div class="question-item">
+                        <div class="question-label">Q26</div>
+                        <p class="question-text">Is there anything else we should know that would help us support you?</p>
+                        <p class="question-hint">Time zone differences, health considerations, upcoming travel, anything that helps us help you — it all belongs here.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Part 9: Commitment -->
+            <div class="part-card" data-aos="fade-up" data-aos-delay="50">
+                <div class="part-card-header">
+                    <div class="part-number">9</div>
+                    <h3>Your Commitment</h3>
+                </div>
+                <div class="part-card-body">
+                    <div class="pledge-block">
+                        <blockquote>
+                            "I'm choosing to start this course with my eyes open. I know it asks for about 1 hour 45 minutes a week for 12 weeks. I've planned when I'll do the work and how I'll handle the weeks that get hard. I'll aim to finish — and if I get stuck, I'll reach out before I give up."
+                        </blockquote>
+                        <p class="text-muted" style="font-size:0.9rem; margin:0;">You'll sign and date this in the Google Form. We may check in around Week 4–6 to revisit your plan — that's a good thing, not a test.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom CTA -->
+            <div class="bottom-cta" data-aos="zoom-in">
+                <h2>Ready? Fill in the form.</h2>
+                <p>You've read through everything and discovered your learner profile. Now take 10 minutes and commit — it makes a real difference to whether you finish.</p>
+                <a href="https://forms.gle/ctViiYzoJYshG5wr5" class="form-cta-btn" target="_blank" style="font-size:1.05rem; padding: 0.9rem 2.5rem;">📋 Open the Commitment Form →</a>
+            </div>
+
+        </div>
+    </div>
+
+    <footer class="text-center py-4" style="background-color: #1e3a8a; color: white;">
+        <p>&copy; 2026 Master R Programming. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+    <script>AOS.init({ duration: 700, once: true, offset: 80 });</script>
+    <script>
+        window.addEventListener('scroll', () => {
+            document.querySelector('.navbar').classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // ── Learner Quiz ──
+        const scores = { social: 0, help: 0, resilience: 0, pace: 0 };
+        const answered = {};
+
+        function selectOption(el) {
+            const question = el.closest('.quiz-question');
+            const qId = question.dataset.q;
+
+            // Deselect siblings
+            question.querySelectorAll('.quiz-option').forEach(o => o.classList.remove('selected'));
+            el.classList.add('selected');
+
+            // Subtract previous scores for this question
+            if (answered[qId]) {
+                const prev = answered[qId];
+                Object.keys(prev).forEach(dim => { scores[dim] -= prev[dim]; });
+            }
+
+            // Read new scores from data attributes
+            const delta = {};
+            ['social','help','resilience','pace'].forEach(dim => {
+                const v = parseInt(el.dataset[dim] || 0);
+                if (v !== 0) delta[dim] = v;
+            });
+            answered[qId] = delta;
+            Object.keys(delta).forEach(dim => { scores[dim] += delta[dim]; });
+
+            updateProgress();
+            if (Object.keys(answered).length === 6) showProfile();
+        }
+
+        function updateProgress() {
+            const n = Object.keys(answered).length;
+            document.getElementById('quiz-count').textContent = n + ' / 6';
+            document.getElementById('quiz-bar').style.width = (n / 6 * 100) + '%';
+        }
+
+        const profiles = {
+            'struggler': {
+                cls: 'profile-struggler',
+                icon: '⚠️',
+                tag: 'The Silent Struggler',
+                body: `<p>Your answers suggest that when things get difficult, you tend to go quiet rather than reach out — and that falling behind could easily become invisible to everyone, including Dr. Aswath.</p>
+                       <p>This isn't a flaw, it's a very common pattern — and the good news is that awareness of it is the first step to changing it. The single most important commitment you can make in this course isn't to the schedule or the exercises. It's this: <strong>reach out early, not after you've been lost for three weeks.</strong></p>
+                       <p>A two-line WhatsApp message — "I'm a bit confused about this week's topic" — is enough. Dr. Aswath checks in around Week 4–6 specifically because of learners like you. Meet him halfway.</p>
+                       <div class="profile-watch"><strong>Watch out for:</strong> The gap between "I'll catch up this weekend" and "I'm now three weeks behind and too embarrassed to say anything." That gap is where most people exit quietly. You now know it's coming — decide in advance that you won't let it happen.</div>`
+            },
+            'active': {
+                cls: 'profile-active',
+                icon: '🙋',
+                tag: 'The Active Participant',
+                body: `<p>You thrive in interactive environments and aren't afraid to engage. You'll likely be a positive force in the group chat and class discussions — and your questions will help the whole cohort, not just yourself.</p>
+                       <p>Dr. Aswath will find it easy to support you, because you'll make your needs and progress visible naturally.</p>
+                       <div class="profile-watch"><strong>Watch out for:</strong> Make sure active class participation doesn't substitute for dedicated solo practice time. The place where programming actually sticks is when you're working through something alone, without anyone to ask. Protect your 15-minute practice slot even on the weeks when class felt easy.</div>`
+            },
+            'achiever': {
+                cls: 'profile-achiever',
+                icon: '🎯',
+                tag: 'The Silent Achiever',
+                body: `<p>You do your best work independently and quietly. You'll probably produce solid output without much hand-holding — and that independence is a genuine strength in programming.</p>
+                       <p>The risk is specific: you may not ask for help precisely when you most need it. Not because you're stubborn, but because your default is to push through alone.</p>
+                       <div class="profile-watch"><strong>Watch out for:</strong> Set a personal rule before the course starts — if you've been stuck on something for more than 30 minutes, you reach out. Dr. Aswath cannot support what he cannot see. Your silence will be interpreted as "doing fine."</div>`
+            },
+            'explorer': {
+                cls: 'profile-explorer',
+                icon: '🗺️',
+                tag: 'The Explorer',
+                body: `<p>You're comfortable with ambiguity, love figuring things out yourself, and probably enjoy the process of discovery as much as the destination. This is a genuine asset in programming — the willingness to just try things is underrated.</p>
+                       <p>You'll likely enjoy R more than most learners in the cohort, especially once you get into data manipulation and visualisation where there's a lot to explore.</p>
+                       <div class="profile-watch"><strong>Watch out for:</strong> Rabbit holes. It's easy to spend an hour on something tangential and fall behind the class pace. When you find yourself exploring freely, set a 20-minute timer. If you're still going at the end, ask yourself whether this is serving your core goal or your curiosity.</div>`
+            },
+            'guided': {
+                cls: 'profile-guided',
+                icon: '🧭',
+                tag: 'The Guided Learner',
+                body: `<p>You work best with clear structure, step-by-step guidance, and the security of knowing what's coming before you try it. This course provides exactly that — the weekly class rhythm and structured curriculum are designed for learners like you.</p>
+                       <p>You are absolutely capable of completing this course. The structure is there; your job is to trust it and stay in the rhythm.</p>
+                       <div class="profile-watch"><strong>Watch out for:</strong> Don't wait until you're confused about three things before asking a question. One question, asked early, saves you from compounding confusion. Use the class time and WhatsApp group actively — that's what they're for.</div>`
+            },
+            'balanced': {
+                cls: 'profile-balanced',
+                icon: '⚖️',
+                tag: 'The Balanced Learner',
+                body: `<p>You have a flexible, adaptive learning style. You're comfortable both working independently and reaching out when you need to, and you don't have strong extremes in either direction.</p>
+                       <p>This adaptability is an advantage — you'll be able to adjust to whatever the course throws at you without needing much scaffolding.</p>
+                       <div class="profile-watch"><strong>Watch out for:</strong> The main risk for balanced learners is underinvestment. Because nothing feels too hard, it's easy to coast. Make sure you're genuinely doing the weekly practice — not just attending class and assuming that's enough. The practice is where the learning consolidates.</div>`
+            }
+        };
+
+        function showProfile() {
+            const { social, help, resilience, pace } = scores;
+            let key;
+
+            if (resilience <= -1 && help <= -1) {
+                key = 'struggler';
+            } else if (social >= 2 && help >= 2) {
+                key = 'active';
+            } else if (help <= -1 && resilience >= 1) {
+                key = 'achiever';
+            } else if (pace >= 2 && resilience >= 0) {
+                key = 'explorer';
+            } else if (pace <= -1) {
+                key = 'guided';
+            } else {
+                key = 'balanced';
+            }
+
+            const p = profiles[key];
+            const resultEl = document.getElementById('profile-result');
+            resultEl.className = 'profile-result ' + p.cls;
+            resultEl.innerHTML = `
+                <div class="profile-header">
+                    <span class="profile-icon">${p.icon}</span>
+                    <h4>${p.tag}</h4>
+                    <div class="profile-tag">Your Learner Profile</div>
+                </div>
+                <div class="profile-body">${p.body}</div>`;
+            resultEl.style.display = 'block';
+            document.getElementById('profile-note').style.display = 'block';
+
+            // Smooth scroll to result
+            setTimeout(() => resultEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 100);
+        }
+    </script>
+</body>
+</html>

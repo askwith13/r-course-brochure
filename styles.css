@@ -240,21 +240,87 @@ body {
 }
 
 @media (max-width: 768px) {
-  .hero-title { 
-    font-size: 2.5rem; 
+  .hero-title {
+    font-size: 2.5rem;
   }
-  .hero-subtitle { 
-    font-size: 1.2rem; 
+  .hero-subtitle {
+    font-size: 1.2rem;
   }
-  .coach-section { 
-    flex-direction: column; 
-    gap: 1rem; 
+  .coach-section {
+    flex-direction: column;
+    gap: 1rem;
   }
-  .main-content { 
-    padding: 20px; 
+  .main-content {
+    padding: 20px;
   }
   .feature-grid {
     grid-template-columns: 1fr;
   }
+}
+
+/* ── Visual Flair ── */
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Navbar shrink on scroll */
+.navbar {
+  transition: padding 0.3s ease, backdrop-filter 0.3s ease;
+}
+.navbar.scrolled {
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  background: linear-gradient(135deg, rgba(30,58,138,0.95) 0%, rgba(59,130,246,0.95) 100%) !important;
+}
+
+/* Section h2 underline accent */
+.main-content h2 {
+  position: relative;
+  padding-bottom: 0.6rem;
+  margin-bottom: 1.8rem;
+}
+.main-content h2::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 50px;
+  height: 3px;
+  background: linear-gradient(90deg, #1e3a8a, #3b82f6);
+  border-radius: 2px;
+}
+
+/* Curriculum item left accent bar */
+.curriculum-item {
+  border-left: 3px solid transparent;
+  transition: border-left-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+.curriculum-item:hover {
+  border-left-color: #3b82f6;
+}
+
+/* Feature card top accent border */
+.feature-card {
+  border-top: 3px solid transparent;
+  transition: border-top-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+.feature-card:hover {
+  border-top-color: #3b82f6;
+}
+
+/* CTA button pulse glow */
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 4px 6px rgba(220, 38, 38, 0.3); }
+  50%       { box-shadow: 0 6px 20px rgba(220, 38, 38, 0.55); }
+}
+.cta-button {
+  animation: pulse-glow 2.5s ease-in-out infinite;
+}
+.cta-button:hover {
+  animation: none;
+  box-shadow: 0 6px 12px rgba(220, 38, 38, 0.4);
 }
 

@@ -1,3 +1,13 @@
+// Navbar shrink on scroll
+window.addEventListener('scroll', () => {
+    const navbar = document.querySelector('.navbar');
+    if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+    } else {
+        navbar.classList.remove('scrolled');
+    }
+});
+
 // Smooth scrolling for navigation links
 document.addEventListener('DOMContentLoaded', function() {
     // Add smooth scrolling to all anchor links
