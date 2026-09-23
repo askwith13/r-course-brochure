@@ -271,7 +271,7 @@ def generate_html():
                     <h3>🚀 Start Your Journey</h3>
                     <p><strong>Course starts: 28th March 2026</strong></p>
                     <p>Limited seats available</p>
-                    <p>An inexpensive INR 900 for the basics course. Register for advanced after you finish Basics</p>
+                    <p>An inexpensive INR 1200 for the basics course. Register for advanced after you finish Basics</p>
                 </div>
 
                 <div class="text-center">
